@@ -5,6 +5,7 @@ import java.util.Scanner; //best practice: only import the specific classes you 
 public class Assign7 {
 
 	public static Scanner in = new Scanner(System.in);
+	static Bank bank = new Bank("JH");
 
 	public static void displayMenu() {
 		
@@ -21,8 +22,6 @@ public class Assign7 {
 	public static void main(String[] args) {
 		
 		char option = 'x';
-		
-		Bank bank = new Bank("Bank Name");
 		
 		do {
 			
