@@ -1,8 +1,10 @@
 package banking;
 
+import java.text.DecimalFormat;
+
 public class ChequingAccount extends BankAccount {
 
-	private double monthlyFee;
+	private double fee;
 	
 public boolean addBankAccount() {
 		
@@ -10,22 +12,29 @@ public boolean addBankAccount() {
 			return false;
 		}
 		
-		//process these fields
+		System.out.println("Enter the monthly fee:");
+		fee = Assign7.in.nextDouble();
 		
-		return false;
+		//TODO: exception handling for monthly fee
+		
+		return true;
 	}
 	
 	public String toString() {
-		return super.toString() + " | Monthly Fee: " + monthlyFee;
+		return super.toString() + " | Monthly Fee: " + fee;
 	}
 
 	@Override
 	public void monthlyAccountUpdate() {
-		balance -= monthlyFee;
+		DecimalFormat df = new DecimalFormat("$###,###.##");
 		
-		if (balance < 0) {
-			System.out.println("Account " + accNumber + " overdrawn.");
+		if (balance>fee) {
+			balance -= fee;
 		}
-		
-	}
+		else {
+			System.err.println("Insufficient funds to charge " + df.format(fee) + " on account " + accNumber);
+			
+		}
+	} //end monthlyAccountUpdate
+
 }

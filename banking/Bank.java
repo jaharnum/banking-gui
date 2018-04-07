@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 public class Bank {
 	
-	private String bankName;
-	
+	private static String bankName;
 	private static ArrayList<BankAccount> accounts;
+	private int numAccounts;
 	
 	public Bank(String bankName) {
 		this.bankName = bankName;
@@ -18,7 +18,7 @@ public class Bank {
 		//prompt user for information
 		System.out.println("Enter details for account number #" + (accounts.size() + 1));
 		
-		BankAccount tempAccount;
+		BankAccount newAccount = null;
 		char option = 'x';
 		
 		//TODO - put this in a loop
@@ -26,19 +26,19 @@ public class Bank {
 		option = Assign7.in.next().toLowerCase().charAt(0);
 		
 		if (option == 'c') {
-			tempAccount = new ChequingAccount();
+			newAccount = new ChequingAccount();
 		}
 		else if (option == 's') {
-			tempAccount = new SavingsAccount();
+			newAccount = new SavingsAccount();
 		}
 		else {
 			System.out.println("I'm sorry, that's not a valid option");
-			tempAccount = null;
 		}
 		
-		if (tempAccount.addBankAccount()) {
-			accounts.add(tempAccount);
+		if (newAccount.addBankAccount()) {
+			accounts.add(newAccount);
 			System.out.println("Account created successfully");
+			numAccounts += 1;
 			return true;
 		} 
 		else {
@@ -60,45 +60,32 @@ public class Bank {
 		
 		//TODO pretty header kind of deal
 		
-		for (BankAccount b : accounts) {
-			System.out.println(b);
+		for (BankAccount acc : accounts) {
+			System.out.println(acc);
 			//print the object - calls toString()
 		}
 	} //end printAccountDetails
 	
-	public boolean updateAccount() {
+	public void updateAccount() {
 		
 		//find an account to update
-		BankAccount b = findAccount();
+		BankAccount acc = findAccount();
+		
+		if (acc==null) {
+			System.out.println("Account number requested not found");
+			return;
+		}
 		
 		//prompt for amount
 		System.out.println("Enter an amount:");
-		Double amount = Assign7.in.nextDouble();
+		acc.updateBalance(Assign7.in.nextDouble());
 		
-		if (amount < 0) {
-			if (!b.withdraw(amount)) {
-				System.out.println("Insufficient funds.");
-				return false;
-			}
-			else {
-				b.withdraw(amount);
-				return true;
-			}
-		}
-		else if (amount > 0) {
-			b.deposit(amount);
-			return true;
-		}
-		else {
-			System.out.println("No update to perform");
-			return false;
-		}
 	}//end update
 
 	public void monthlyUpdate() {
 		
-		for (BankAccount b : accounts) {
-			b.monthlyAccountUpdate();
+		for (BankAccount acc : accounts) {
+			acc.monthlyAccountUpdate();
 		}
 	} //end monthlyUpdate
 	
@@ -107,17 +94,30 @@ public class Bank {
 		//prompt the user for an account number to find
 		System.out.println("Enter an account number:");
 		
+		while(!Assign7.in.hasNextLong()) {
+			System.out.println("Invalid account number. Please try again.");
+			Assign7.in.next();
+		}
+		
 		return searchAccounts(Assign7.in.nextLong());
 	}
 	
 	public static BankAccount searchAccounts(long accNumToFind) {
 		
-		for (BankAccount b: accounts) {
-			if (b.getAccNumber() == accNumToFind) {
-				return b;
+		for (BankAccount acc: accounts) {
+			if (acc.getAccNumber() == accNumToFind) {
+				return acc;
 			}
 		}
 		return null;
+	}
+	
+	public int getNumAccounts() {
+		return numAccounts;
+	}
+	
+	public static String getName() {
+		return bankName;
 	}
 	
 } //end class

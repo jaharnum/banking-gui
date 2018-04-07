@@ -1,12 +1,11 @@
 package banking;
 
+import java.text.DecimalFormat;
+
 public class SavingsAccount extends BankAccount {
 
 	private double interestRate;
-	private double minBalance;
-	
-	//TODO constructor
-	//TODO add methods
+	private double minimumBalance;
 	
 	public boolean addBankAccount() {
 		
@@ -14,21 +13,34 @@ public class SavingsAccount extends BankAccount {
 			return false;
 		}
 		
-		//process these fields
+		System.out.println("Enter the yearly interest rate: ");
+		interestRate = Assign7.in.nextDouble();
 		
-		return false;
+		System.out.println("Enter a minimum balance: ");
+		minimumBalance = Assign7.in.nextDouble();
+		
+		//TODO exception handling for these fields
+		
+		return true;
 	}
 	
 	@Override
 	public void monthlyAccountUpdate() {
-		// TODO Auto-generated method stub
+		//TODO: put decimal format as protected static in bankAccount class?
+		DecimalFormat df = new DecimalFormat("$###,###.##");
 		
-		if (balance>minBalance) {
-
-		balance += balance * (interestRate/12);
-		
+		if (balance>minimumBalance) {
+			balance += balance * (interestRate/12);
+		}
+		else {
+			System.err.println("Minimum balance of " + df.format(minimumBalance) + " in account " + accNumber + " has not been met");
 		}
 		
+	}
+	
+	public String toString() {
+		DecimalFormat df = new DecimalFormat("$###,###.##");
+		return super.toString() + " | Interest Rate: " + interestRate + "% | Minimum Balance: " + df.format(minimumBalance);
 	}
 
 }

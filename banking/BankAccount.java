@@ -5,47 +5,97 @@ import java.text.DecimalFormat;
 public abstract class BankAccount {
 	
 	protected long accNumber;
-	protected double balance;
-	protected String customerName;
+	protected double balance = 0;
+	protected Person accHolder;
+
 	
+	public boolean addBankAccount() {
+		
+		long accNum = 0;
+		
+		do { 
+			
+			//prompt user for a new account number
+			System.out.println("Enter a new account number:");
+			String accN = Assign7.in.next();
+			
+			if (accN.length()<=8) {
+				try {
+					accNum = Long.parseLong(accN);
+					
+					if (Bank.searchAccounts(accNum) != null) {
+						accNum = 0;
+						System.out.println("Account number is already in use. Please try again.");
+					}
+				} catch (Exception e) {
+					accNum=0;
+					System.out.println("Invalid account number. Please try again");
+				}
+			}
+			
+		} while (accNum==0);
+		
+		accNumber = accNum;
+		
+		//TODO prompt for customer name + exception handling
+		System.out.println("What is the account holder's last name?");
+		String lName = Assign7.in.next();
+		
+		System.out.println("What is the account holder's first name?");
+		String fName = Assign7.in.next();
+		
+		System.out.println("Enter the opening balance:");
+		while (!Assign7.in.hasNextDouble()) {
+			System.out.println("Invalid opening balance amount. Please try again:");
+			Assign7.in.next();
+		}
+		balance = Assign7.in.nextDouble();
+		
+		long phoneNum=0;
+		do {
+			System.out.println("Enter a phone number:");
+			String pNum = Assign7.in.next();
+			
+			if (pNum.length()==7 || pNum.length()==10) {
+				try {
+					phoneNum = Long.parseLong(pNum);
+				} catch (Exception e) {
+					phoneNum = 0;
+					System.out.println("Invalid phone number. Please try again.");
+				}
+			}
+		} while (phoneNum==0);
+		
+		//TODO exception handling for email
+		System.out.println("Enter an email address:");
+		String email = Assign7.in.next();
+		
+		accHolder = new Person(lName, fName, phoneNum, email);
+		
+		return true;
+	}
+
 	public long getAccNumber() {
 		return accNumber;
 	}
 	
-	public boolean addBankAccount() {
-		
-		//prompt user for a new account number
-		System.out.println("Enter a new account number:");
-		long newAccNum = Assign7.in.nextLong();
-		
-		// check if number is duplicate
-		//TODO loop to re-request number
-		if (Bank.searchAccounts(newAccNum) != null) {
-			System.out.print("That account number is already in use");
-			return false;
-		}
-		
-		//prompt for customer name
-		System.out.println("What is the account holder's name?");
-		
-		//prompt for initial balance
-		
-		
-		return false;
+	public Person getAccHolder() {
+		return accHolder;
 	}
 	
-	public boolean withdraw(double amount) {
-		if (amount > balance) {
-			return false;
+	public void updateBalance(double amount) {
+		if (amount < 0) {
+			amount = Math.abs(amount);
+			
+			if(amount>balance) {
+				System.out.println("Insufficient funds.");
+				return;
+			}
+			balance -= amount;
 		}
 		else {
-			balance -= amount;
-			return true;
+			balance += amount;
 		}
-	}
-	
-	public void deposit(double amount) {
-		balance += amount;
 	}
 	
 	public String toString() {
