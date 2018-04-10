@@ -21,7 +21,7 @@ public class Assign7 {
 		System.out.println("q: Quit");
 		*/
 		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
 			BankFrame menu = new BankFrame();
 			menu.setSize(400, 600);
 			menu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

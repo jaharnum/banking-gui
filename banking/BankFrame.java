@@ -44,55 +44,22 @@ public class BankFrame extends JFrame {
 		menuJLabel.setFont(new Font("Serif", Font.BOLD, 45));
 		menuJLabel.setForeground(lGoldColor);
 		
+		ButtonHandler handler = new ButtonHandler();
+		
 		addJButton = new JButton("Add New Account");
-		addJButton.addActionListener(new ActionListener() {
-			public void actionPerformed (ActionEvent e) {
-					AddFrame addAccount = new AddFrame();
-					addAccount.setSize(400, 600);
-					addAccount.setVisible(true);
-			}
-		});
+		addJButton.addActionListener(handler);
 		
 		displayJButton = new JButton("Display an Account");
-		displayJButton.addActionListener(
-				new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						DisplayFrame displayAccount = new DisplayFrame();
-						displayAccount.setSize(400, 600);
-						displayAccount.setVisible(true);
-					} //end actionPerformed
-				}//end inner class
-				); //end addActionListener
+		displayJButton.addActionListener(handler);
 		
 		printJButton = new JButton("Print All Accounts");
-		printJButton.addActionListener(
-				new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						PrintFrame printAccount = new PrintFrame();
-						printAccount.setSize(400, 600);
-						printAccount.setVisible(true);
-					}// end actionPerformed
-				}); //end inner class and addactionlistener
+		printJButton.addActionListener(handler);
 		
 		updateJButton = new JButton("Update an Account");
-		updateJButton.addActionListener(
-				new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						//direct user to update frame
-					}//end actionPerformed
-				});
+		updateJButton.addActionListener(handler);
 		
 		monthlyJButton = new JButton("Monthly Processing");
-		monthlyJButton.addActionListener( 
-				new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						PrintFrame printAccount = new PrintFrame();
-						printAccount.setSize(400, 600);
-						printAccount.setVisible(true);
-						
-						//TODO add "if" statements to print frame to detect if its a monthly update and set some elements visible / invisible in that case
-					} //end action performed
-				});
+		monthlyJButton.addActionListener(handler);
 		
 		importJButton = new JButton("Import from File");
 		importJButton.setEnabled(false);
@@ -115,6 +82,48 @@ public class BankFrame extends JFrame {
 		add(exitJButton);
 		
 	}
+	
+	private class ButtonHandler implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+
+			JFrame option = null;
+			
+			if (e.getSource()==addJButton) {
+				AddFrame addAccount = new AddFrame();
+				option = addAccount;		
+			} 
+			
+			else if (e.getSource()==displayJButton) {
+				DisplayFrame displayAccount = new DisplayFrame();
+				option = displayAccount;
+			} 
+			
+			else if (e.getSource()==printJButton||e.getSource()==monthlyJButton) {
+				PrintFrame printAccount = new PrintFrame();
+				option = printAccount;
+				/*
+				 * if (e.getSource()==monthlyJButton){
+				 *  method that toggles on extra fields for the monthly update
+				 * }
+				 */	
+			} 
+			
+			else if (e.getSource()==updateJButton) {
+				UpdateFrame updateAccount = new UpdateFrame();
+				option = updateAccount;
+			} 
+			
+			else if (e.getSource()==importJButton) {
+				//nothing  yet! 
+			}
+			
+				option.setSize(400,600);
+				option.setVisible(true);		
+		} //end actionPerformed
+		
+	} //end ButtonHandler
 	
 	public void paint(Graphics g) {
 		super.paint(g);

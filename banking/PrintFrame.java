@@ -30,7 +30,7 @@ public class PrintFrame extends JFrame {
 	private Color lGreenColor = new Color(68, 167, 127);
 
 
-	public UpdateFrame(){
+	public PrintFrame(){
 		super("The " + Assign7.bank.getName() + " Banking System");
 		setLayout(new FlowLayout(FlowLayout.CENTER, 200, 30));
 		
