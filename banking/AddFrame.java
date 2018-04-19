@@ -49,7 +49,8 @@ public class AddFrame extends JFrame {
 	
 	private JLabel errorMsg;
 	
-	protected String accType;
+	private String accType;
+	private String origin;
 	
 	/*
 	 * Color codes:
@@ -416,23 +417,23 @@ public class AddFrame extends JFrame {
 			} //end if
 			
 		} //end for
-			getAccHolder();
 			setAccInfo();
 			
 			dispose();
 		}//end ActionListener
 		
-		public Person getAccHolder() {
+		public void setAccHolder() {
 			accHolder = new Person(fNameAdd, lNameAdd, phoneNumAdd, emailAdd);
-			return accHolder;
 		}
 		
 		public void setAccInfo() {
 			
+			setAccHolder();
+			
 			if (accType=="chequing") {
 				BankAccount newAccount = new ChequingAccount();
 				newAccount.accNumber = accNumAdd;
-				newAccount.accHolder = getAccHolder();
+				newAccount.accHolder = accHolder;
 				newAccount.balance = balanceAdd;
 				((ChequingAccount)newAccount).fee = feeAdd;
 				Assign7.bank.addAccount(newAccount);
@@ -450,8 +451,6 @@ public class AddFrame extends JFrame {
 			}
 			
 	}//end ActionPerformed
-
-	protected String origin;
 	
 	private class BadInputHandler implements ActionListener {
 		

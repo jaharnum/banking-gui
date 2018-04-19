@@ -19,11 +19,16 @@ public class DisplayFrame extends JFrame {
 	private JLabel displayJLabel;
 	private JPanel selectionPane;
 		private JTextField selectAccount;
+			String accNum;
 		private JButton findAccountButton;
 		private JLabel errorMsg;
 	private JPanel displayPane;
-		BankAccount foundAccount = null;
-		String accNum;
+		private JLabel foundIntroJLabel;
+		private JLabel foundAccountJLabel;
+		BankAccount foundAccount=null;
+	private JPanel notFoundPane;
+		private JLabel notFoundJLabel;
+	private JButton searchAgainButton;
 	private Color background;
 	
 	/*
@@ -49,10 +54,14 @@ public class DisplayFrame extends JFrame {
 		displayJLabel.setFont(new Font("Serif", Font.BOLD, 45));
 		displayJLabel.setForeground(lGoldColor);
 		
+		searchAgainButton = new JButton("Search Again");
+		searchAgainButton.addActionListener(new ButtonHandler());
+		
 		
 		add(displayJLabel);
 		selectionPane();
 		displayPane();
+		notFoundPane();
 
 	}
 	
@@ -112,21 +121,18 @@ public class DisplayFrame extends JFrame {
 		displayPane.setLayout(display);
 		displayPane.setOpaque(false);
 		
-		JButton searchAgainButton = new JButton("Search Again");
-		searchAgainButton.addActionListener(new ButtonHandler());
-		
 		display.setAutoCreateGaps(true);
 		display.setAutoCreateContainerGaps(true);
 		
-		if(foundAccount!=null) {
-		
-		JLabel foundIntroJLabel = new JLabel("Here is the account info for account #" + accNum);
+		foundIntroJLabel = new JLabel("Here is the account info for account #" + accNum);
 		foundIntroJLabel.setFont(allLabels);
 		foundIntroJLabel.setForeground(lGreenColor);
 		
-		JLabel foundAccountJLabel = new JLabel(foundAccount.toString());
-		foundAccountJLabel.setFont(new Font("Calibri", Font.PLAIN, 20));
-		foundAccountJLabel.setForeground(lGreenColor);
+		if (foundAccount!=null) {
+			foundAccountJLabel = new JLabel(foundAccount.toString());
+			foundAccountJLabel.setFont(new Font("Calibri", Font.PLAIN, 20));
+			foundAccountJLabel.setForeground(lGreenColor);
+
 		
 		display.setHorizontalGroup(
 				display.createSequentialGroup()
@@ -142,32 +148,40 @@ public class DisplayFrame extends JFrame {
 				.addComponent(foundAccountJLabel)
 				.addComponent(searchAgainButton)
 				);
-		
 		}
-		else {
-			
-		JLabel notFoundJLabel = new JLabel("Sorry, we couldn't find an account with that number");
-		notFoundJLabel.setFont(allLabels);
-		notFoundJLabel.setForeground(lGreenColor);
 		
-		display.setHorizontalGroup(
-				display.createSequentialGroup()
-				.addGroup(display.createParallelGroup(GroupLayout.Alignment.CENTER)
+		add(displayPane);
+		displayPane.setVisible(false);
+		
+	}
+	
+	private void notFoundPane() {
+		notFoundPane = new JPanel();
+		GroupLayout notFound = new GroupLayout(notFoundPane);
+		notFoundPane.setLayout(notFound);
+		notFoundPane.setOpaque(false);
+		
+			notFoundJLabel = new JLabel("Sorry, we couldn't find an account with that number");
+			notFoundJLabel.setFont(allLabels);
+			notFoundJLabel.setForeground(lGreenColor);		
+			
+		notFound.setHorizontalGroup(
+				notFound.createSequentialGroup()
+				.addGroup(notFound.createParallelGroup(GroupLayout.Alignment.CENTER)
 						.addComponent(notFoundJLabel)
 						.addComponent(searchAgainButton)
 						));
 		
-		display.setVerticalGroup(
-				display.createSequentialGroup()
+		notFound.setVerticalGroup(
+				notFound.createSequentialGroup()
 					.addComponent(notFoundJLabel)
 					.addComponent(searchAgainButton)
 					);
 			
+			add(notFoundPane);
+			notFoundPane.setVisible(false);
 		}
-		
-		displayPane.setVisible(false);
-		add(displayPane);
-	}
+
 	
 	private class ButtonHandler implements ActionListener {
 
@@ -180,16 +194,25 @@ public class DisplayFrame extends JFrame {
 				Long accNumToFind = Long.parseLong(accNum);
 				
 				foundAccount = Bank.searchAccounts(accNumToFind);
+				
 				} 
 				catch (NumberFormatException notLong) {
 					errorMsg.setVisible(true);
 				}
 				
-			displayPane.setVisible(true);
-			selectionPane.setVisible(false);
+				if(foundAccount==null) {
+					notFoundPane.setVisible(true);
+					displayPane.setVisible(false);
+					selectionPane.setVisible(false);
+				} else {
+					displayPane.setVisible(true);
+					notFoundPane.setVisible(false);
+					selectionPane.setVisible(false);
+				}
 			}
 			else {
 			displayPane.setVisible(false);
+			notFoundPane.setVisible(false);
 			selectionPane.setVisible(true);
 			}
 		}

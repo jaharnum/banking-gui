@@ -70,10 +70,8 @@ public class PrintFrame extends JFrame {
 	public void printPane() {
 		printPane = new JPanel();
 		printPane.setOpaque(true);
-		JTextArea allAccounts = new JTextArea(10,20);
+		JLabel allAccounts = new JLabel();
 		JScrollPane scrollPane = new JScrollPane(allAccounts);
-		allAccounts.setEditable(false);
-		allAccounts.setBackground(mGreenColor);
 		allAccounts.setFont(new Font("Calibri", Font.PLAIN, 20));
 		allAccounts.setForeground(lGreenColor);
 		

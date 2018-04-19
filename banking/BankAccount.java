@@ -106,7 +106,8 @@ public abstract class BankAccount {
 	public String toString() {
 		
 		DecimalFormat df = new DecimalFormat("$###,###.##");
-		return "Account number: " + accNumber + " | Balance: " + df.format(balance);
+		return "Account number: " + accNumber + " | Name: " + accHolder.getName() + " | Phone Number: " + accHolder.getPhoneNumber() +
+								" | Email: " + accHolder.getEmail() + " | Balance: " + df.format(balance);
 		
 	}
 	
