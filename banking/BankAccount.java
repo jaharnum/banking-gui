@@ -5,7 +5,7 @@ import java.text.DecimalFormat;
 
 public abstract class BankAccount {
 	
-	protected long accNumber;
+	protected long accNumber = 0;
 	protected double balance = 0;
 	protected Person accHolder;
 

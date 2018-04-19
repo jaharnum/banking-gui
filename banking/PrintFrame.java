@@ -74,7 +74,7 @@ public class PrintFrame extends JFrame {
 		JScrollPane scrollPane = new JScrollPane(allAccounts);
 		allAccounts.setEditable(false);
 		allAccounts.setBackground(mGreenColor);
-		allAccounts.setFont(new Font("Calibri", Font.PLAIN, 15));
+		allAccounts.setFont(new Font("Calibri", Font.PLAIN, 20));
 		allAccounts.setForeground(lGreenColor);
 		
 		scrollPane.setVerticalScrollBarPolicy(

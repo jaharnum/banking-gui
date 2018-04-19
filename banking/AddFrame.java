@@ -28,7 +28,7 @@ public class AddFrame extends JFrame {
 
 	private JButton addButton;
 	
-	private Font allLabels = new Font("Calibri", Font.PLAIN, 16);
+	private Font allLabels = new Font("Calibri", Font.PLAIN, 20);
 	
 	private JPanel typePane;
 		private JLabel accTypeDesc;
@@ -431,6 +431,7 @@ public class AddFrame extends JFrame {
 			
 			if (accType=="chequing") {
 				BankAccount newAccount = new ChequingAccount();
+				newAccount.accNumber = accNumAdd;
 				newAccount.accHolder = getAccHolder();
 				newAccount.balance = balanceAdd;
 				((ChequingAccount)newAccount).fee = feeAdd;
@@ -438,6 +439,7 @@ public class AddFrame extends JFrame {
 				}
 			else {
 				BankAccount newAccount = new SavingsAccount();
+				newAccount.accNumber = accNumAdd;
 				newAccount.accHolder = accHolder;
 				newAccount.balance = balanceAdd;
 				((SavingsAccount)newAccount).interestRate = interestAdd;

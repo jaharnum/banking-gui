@@ -31,7 +31,7 @@ public class UpdateFrame extends JFrame {
 
 
 	public UpdateFrame(){
-		super("The " + Assign7.bank.getName() + " Banking System");
+		super("The " + Bank.getName() + " Banking System");
 		setLayout(new FlowLayout(FlowLayout.CENTER, 200, 30));
 		
 		background = new Color(13, 58, 40);

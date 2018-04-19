@@ -7,14 +7,23 @@ import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 public class DisplayFrame extends JFrame {
 	
 	private JLabel displayJLabel;
-	
+	private JPanel selectionPane;
+		private JTextField selectAccount;
+		private JButton findAccountButton;
+		private JLabel errorMsg;
+	private JPanel displayPane;
+		BankAccount foundAccount = null;
+		String accNum;
 	private Color background;
 	
 	/*
@@ -28,10 +37,11 @@ public class DisplayFrame extends JFrame {
 	 */
 	private Color lGoldColor = new Color(245, 212, 100);
 	private Color lGreenColor = new Color(68, 167, 127);
+	private Font allLabels = new Font("Calibri", Font.PLAIN, 20);
 
 
 	public DisplayFrame(){
-		super("The " + Assign7.bank.getName() + " Banking System");
+		super("The " + Bank.getName() + " Banking System");
 		setLayout(new FlowLayout(FlowLayout.CENTER, 200, 30));
 		
 		background = new Color(13, 58, 40);
@@ -41,7 +51,164 @@ public class DisplayFrame extends JFrame {
 		
 		
 		add(displayJLabel);
+		selectionPane();
+		displayPane();
 
+	}
+	
+	private void selectionPane() {
+		selectionPane = new JPanel();
+		GroupLayout select = new GroupLayout(selectionPane);
+		selectionPane.setLayout(select);
+		selectionPane.setOpaque(false);
+		
+		JLabel selectAccountJLabel = new JLabel("Which account would you like to display?");
+		selectAccountJLabel.setFont(allLabels);
+		selectAccountJLabel.setForeground(lGreenColor);
+		
+		selectAccount = new JTextField("Enter account number", 10);
+		selectAccount.addActionListener(new BadInputHandler());
+		
+		findAccountButton = new JButton("Find Account");
+		findAccountButton.addActionListener(new ButtonHandler());
+		findAccountButton.setEnabled(false);
+	
+		errorMsg = new JLabel("Account numbers must be an integer");
+		errorMsg.setFont(new Font("Calibri", Font.BOLD, 20));
+		errorMsg.setForeground(Color.RED);
+		errorMsg.setVisible(false);
+		
+		select.setAutoCreateGaps(true);
+		select.setAutoCreateContainerGaps(true);
+		
+		select.setHorizontalGroup(
+				select.createSequentialGroup() 
+				//components that will be aligned horizonally go in the same group
+				.addGroup(select.createParallelGroup(GroupLayout.Alignment.CENTER)
+						.addComponent(selectAccountJLabel)
+						.addComponent(selectAccount)
+						.addComponent(findAccountButton)
+						.addComponent(errorMsg)
+				));
+		
+		select.setVerticalGroup(
+				select.createSequentialGroup()
+				//components that will be aligned vertically go in the same group
+				.addComponent(selectAccountJLabel)
+				.addComponent(selectAccount)
+				.addComponent(findAccountButton)
+				.addComponent(errorMsg)
+						);
+
+
+		add(selectionPane);
+		selectionPane.setVisible(true);
+		
+		}
+	
+	private void displayPane() {
+		displayPane = new JPanel();
+		GroupLayout display = new GroupLayout(displayPane);
+		displayPane.setLayout(display);
+		displayPane.setOpaque(false);
+		
+		JButton searchAgainButton = new JButton("Search Again");
+		searchAgainButton.addActionListener(new ButtonHandler());
+		
+		display.setAutoCreateGaps(true);
+		display.setAutoCreateContainerGaps(true);
+		
+		if(foundAccount!=null) {
+		
+		JLabel foundIntroJLabel = new JLabel("Here is the account info for account #" + accNum);
+		foundIntroJLabel.setFont(allLabels);
+		foundIntroJLabel.setForeground(lGreenColor);
+		
+		JLabel foundAccountJLabel = new JLabel(foundAccount.toString());
+		foundAccountJLabel.setFont(new Font("Calibri", Font.PLAIN, 20));
+		foundAccountJLabel.setForeground(lGreenColor);
+		
+		display.setHorizontalGroup(
+				display.createSequentialGroup()
+				.addGroup(display.createParallelGroup(GroupLayout.Alignment.CENTER)
+						.addComponent(foundIntroJLabel)
+						.addComponent(foundAccountJLabel)
+						.addComponent(searchAgainButton)
+						));
+		
+		display.setVerticalGroup(
+				display.createSequentialGroup()
+				.addComponent(foundIntroJLabel)
+				.addComponent(foundAccountJLabel)
+				.addComponent(searchAgainButton)
+				);
+		
+		}
+		else {
+			
+		JLabel notFoundJLabel = new JLabel("Sorry, we couldn't find an account with that number");
+		notFoundJLabel.setFont(allLabels);
+		notFoundJLabel.setForeground(lGreenColor);
+		
+		display.setHorizontalGroup(
+				display.createSequentialGroup()
+				.addGroup(display.createParallelGroup(GroupLayout.Alignment.CENTER)
+						.addComponent(notFoundJLabel)
+						.addComponent(searchAgainButton)
+						));
+		
+		display.setVerticalGroup(
+				display.createSequentialGroup()
+					.addComponent(notFoundJLabel)
+					.addComponent(searchAgainButton)
+					);
+			
+		}
+		
+		displayPane.setVisible(false);
+		add(displayPane);
+	}
+	
+	private class ButtonHandler implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if(e.getSource()==findAccountButton) {
+				accNum = selectAccount.getText();
+				
+				try {
+				Long accNumToFind = Long.parseLong(accNum);
+				
+				foundAccount = Bank.searchAccounts(accNumToFind);
+				} 
+				catch (NumberFormatException notLong) {
+					errorMsg.setVisible(true);
+				}
+				
+			displayPane.setVisible(true);
+			selectionPane.setVisible(false);
+			}
+			else {
+			displayPane.setVisible(false);
+			selectionPane.setVisible(true);
+			}
+		}
+		
+	}
+	
+	private class BadInputHandler implements ActionListener {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			String accNum = selectAccount.getText();
+			try {
+				Integer.parseInt(accNum);
+				findAccountButton.setEnabled(true);
+				errorMsg.setVisible(false);
+			} catch (Exception notInt){
+				errorMsg.setVisible(true);
+			}
+		}
 	}
 	
 	public void paint(Graphics g) {

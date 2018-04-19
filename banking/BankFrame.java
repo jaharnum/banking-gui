@@ -123,7 +123,7 @@ public class BankFrame extends JFrame {
 				//nothing  yet! 
 			}
 			
-				option.setSize(400,600);
+				option.setSize(500,600);
 				option.setVisible(true);		
 		} //end actionPerformed
 		
