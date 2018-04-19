@@ -4,21 +4,16 @@ import java.text.DecimalFormat;
 
 public class ChequingAccount extends BankAccount {
 
-	private double fee;
-	
-public boolean addBankAccount() {
+	protected double fee;
+
+public boolean addChequingAccount() {
 		
-		if (!super.addBankAccount()) {
-			return false;
-		}
-		
-		System.out.println("Enter the monthly fee:");
-		fee = Assign7.in.nextDouble();
-		
-		//TODO: exception handling for monthly fee
-		
-		return true;
+	return true;
 	}
+
+public double getFee() {
+	return fee;
+}
 	
 	public String toString() {
 		return super.toString() + " | Monthly Fee: " + fee;

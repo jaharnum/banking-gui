@@ -9,6 +9,7 @@ public class Assign7 {
 
 	public static Scanner in = new Scanner(System.in);
 	static Bank bank = new Bank("JH");
+	static BankFrame menu;
 
 	public static void displayMenu() {
 		
@@ -22,25 +23,32 @@ public class Assign7 {
 		*/
 		try {
 			UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
-			BankFrame menu = new BankFrame();
+			menu = new BankFrame();
 			menu.setSize(400, 600);
 			menu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			menu.setVisible(true);
 		} catch (Exception e) {
+			//TODO error popup
 			System.out.println("Something went wrong");
 		}
 
 	}
 	
 	public static void main(String[] args) {
+
 		
-		char option = 'x';
-		
-		do {
+		try {
 			
 			displayMenu();
+		}
+		catch (Exception e) {
+			//TODO exception handling
+		}
 			
-			option = in.next().toLowerCase().charAt(0); //method chaining - convert to lowercase, consider only first character
+	/*		
+	 * 		char option = 'x';
+	 * 
+	 * 		option = in.next().toLowerCase().charAt(0); //method chaining - convert to lowercase, consider only first character
 			
 			switch(option) {
 			
@@ -73,7 +81,7 @@ public class Assign7 {
 		} while (option !='q');
 		
 		in.close();
-		System.out.println("Have a nice day!");
+		System.out.println("Have a nice day!");*/
 
 	}
 

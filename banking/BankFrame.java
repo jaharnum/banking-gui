@@ -23,6 +23,8 @@ public class BankFrame extends JFrame {
 	private JButton exitJButton;
 	private Color background;
 	
+	protected char source = 'x';
+	
 	/*
 	 * Color codes:
 	 * 13, 58, 40 - darker green, background color. 
@@ -36,7 +38,7 @@ public class BankFrame extends JFrame {
 	private Color lGreenColor = new Color(68, 167, 127);
 
 	public BankFrame() {
-		super("The " + Assign7.bank.getName() + " Banking System");
+		super("The " + Bank.getName() + " Banking System");
 		setLayout(new FlowLayout(FlowLayout.CENTER, 200, 30));
 		
 		background = new Color(13, 58, 40);
@@ -92,28 +94,30 @@ public class BankFrame extends JFrame {
 			
 			if (e.getSource()==addJButton) {
 				AddFrame addAccount = new AddFrame();
-				option = addAccount;		
+				option = addAccount;
+				source = 'a';
 			} 
 			
 			else if (e.getSource()==displayJButton) {
 				DisplayFrame displayAccount = new DisplayFrame();
 				option = displayAccount;
+				source = 'd';
 			} 
 			
-			else if (e.getSource()==printJButton||e.getSource()==monthlyJButton) {
+			else if (e.getSource()==printJButton) {
 				PrintFrame printAccount = new PrintFrame();
 				option = printAccount;
-				/*
-				 * if (e.getSource()==monthlyJButton){
-				 *  method that toggles on extra fields for the monthly update
-				 * }
-				 */	
+				source = 'p';
 			} 
 			
 			else if (e.getSource()==updateJButton) {
 				UpdateFrame updateAccount = new UpdateFrame();
 				option = updateAccount;
+				source = 'u';
 			} 
+			else if (e.getSource()==monthlyJButton) {
+				//TODO popup that says if update was successful, asks if user would like to print all accounts
+			}
 			
 			else if (e.getSource()==importJButton) {
 				//nothing  yet! 
@@ -124,6 +128,10 @@ public class BankFrame extends JFrame {
 		} //end actionPerformed
 		
 	} //end ButtonHandler
+	
+	public char getSource() {
+		return source;
+	}
 	
 	public void paint(Graphics g) {
 		super.paint(g);

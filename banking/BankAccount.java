@@ -1,5 +1,6 @@
 package banking;
 
+import java.lang.reflect.Array;
 import java.text.DecimalFormat;
 
 public abstract class BankAccount {
@@ -11,9 +12,10 @@ public abstract class BankAccount {
 	
 	public boolean addBankAccount() {
 		
-		long accNum = 0;
 		
-		do { 
+		//TODO fix this so it actually does something??? or get rid of it???
+		
+		/* do { 
 			
 			//prompt user for a new account number
 			System.out.println("Enter a new account number:");
@@ -68,9 +70,7 @@ public abstract class BankAccount {
 		
 		//TODO exception handling for email
 		System.out.println("Enter an email address:");
-		String email = Assign7.in.next();
-		
-		accHolder = new Person(lName, fName, phoneNum, email);
+		String email = Assign7.in.next(); */
 		
 		return true;
 	}
@@ -81,6 +81,10 @@ public abstract class BankAccount {
 	
 	public Person getAccHolder() {
 		return accHolder;
+	}
+	
+	public double getBalance() {
+		return balance;
 	}
 	
 	public void updateBalance(double amount) {
@@ -97,6 +101,7 @@ public abstract class BankAccount {
 			balance += amount;
 		}
 	}
+
 	
 	public String toString() {
 		

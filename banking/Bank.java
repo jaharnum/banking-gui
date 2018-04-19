@@ -5,44 +5,23 @@ import java.util.ArrayList;
 public class Bank {
 	
 	private static String bankName;
-	private static ArrayList<BankAccount> accounts;
-	private int numAccounts;
+	protected static ArrayList<BankAccount> accounts;
+	protected int numAccounts;
 	
 	public Bank(String bankName) {
-		this.bankName = bankName;
+		Bank.bankName = bankName;
 		accounts = new ArrayList<BankAccount>();
 	}
 	
-	public boolean addAccount() {
-		
-		//prompt user for information
-		System.out.println("Enter details for account number #" + (accounts.size() + 1));
-		
-		BankAccount newAccount = null;
-		char option = 'x';
-		
-		//TODO - put this in a loop
-		System.out.println("Enter 'c' for Chequing, 's' for Savings");
-		option = Assign7.in.next().toLowerCase().charAt(0);
-		
-		if (option == 'c') {
-			newAccount = new ChequingAccount();
-		}
-		else if (option == 's') {
-			newAccount = new SavingsAccount();
-		}
-		else {
-			System.out.println("I'm sorry, that's not a valid option");
-		}
-		
-		if (newAccount.addBankAccount()) {
-			accounts.add(newAccount);
-			System.out.println("Account created successfully");
-			numAccounts += 1;
-			return true;
+	public boolean addAccount(BankAccount newAccount) {
+		//TODO fix this 
+		try {
+		accounts.add(newAccount);
+		numAccounts++;
+		return true;
 		} 
-		else {
-			System.out.println("I'm sorry, the account was not created successfully");
+		catch (Exception e) {
+			//TODO exception handling
 			return false;
 		}
 		
@@ -115,9 +94,11 @@ public class Bank {
 	public int getNumAccounts() {
 		return numAccounts;
 	}
-	
+
 	public static String getName() {
 		return bankName;
 	}
+
+
 	
 } //end class
