@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -25,7 +26,7 @@ public class DisplayFrame extends JFrame {
 	private JPanel displayPane;
 		private JLabel foundIntroJLabel;
 		private JLabel foundAccountJLabel;
-		BankAccount foundAccount=null;
+		private BankAccount foundAccount;
 	private JPanel notFoundPane;
 		private JLabel notFoundJLabel;
 	private JButton searchAgainButton;
@@ -116,40 +117,11 @@ public class DisplayFrame extends JFrame {
 		}
 	
 	private void displayPane() {
-		displayPane = new JPanel();
-		GroupLayout display = new GroupLayout(displayPane);
-		displayPane.setLayout(display);
+		displayPane = new JPanel(new GridLayout(0,1,0,10));
 		displayPane.setOpaque(false);
 		
-		display.setAutoCreateGaps(true);
-		display.setAutoCreateContainerGaps(true);
-		
-		foundIntroJLabel = new JLabel("Here is the account info for account #" + accNum);
-		foundIntroJLabel.setFont(allLabels);
-		foundIntroJLabel.setForeground(lGreenColor);
-		
-		if (foundAccount!=null) {
-			foundAccountJLabel = new JLabel(foundAccount.toString());
-			foundAccountJLabel.setFont(new Font("Calibri", Font.PLAIN, 20));
-			foundAccountJLabel.setForeground(lGreenColor);
+		displayPane.add(searchAgainButton);
 
-		
-		display.setHorizontalGroup(
-				display.createSequentialGroup()
-				.addGroup(display.createParallelGroup(GroupLayout.Alignment.CENTER)
-						.addComponent(foundIntroJLabel)
-						.addComponent(foundAccountJLabel)
-						.addComponent(searchAgainButton)
-						));
-		
-		display.setVerticalGroup(
-				display.createSequentialGroup()
-				.addComponent(foundIntroJLabel)
-				.addComponent(foundAccountJLabel)
-				.addComponent(searchAgainButton)
-				);
-		}
-		
 		add(displayPane);
 		displayPane.setVisible(false);
 		
@@ -195,20 +167,34 @@ public class DisplayFrame extends JFrame {
 				
 				foundAccount = Bank.searchAccounts(accNumToFind);
 				
-				} 
-				catch (NumberFormatException notLong) {
-					errorMsg.setVisible(true);
-				}
-				
 				if(foundAccount==null) {
 					notFoundPane.setVisible(true);
 					displayPane.setVisible(false);
 					selectionPane.setVisible(false);
+					
 				} else {
-					displayPane.setVisible(true);
 					notFoundPane.setVisible(false);
 					selectionPane.setVisible(false);
+					
+					foundIntroJLabel = new JLabel("Here is the account info for account #" + accNum);
+					foundIntroJLabel.setFont(allLabels);
+					foundIntroJLabel.setForeground(lGreenColor);
+					
+					foundAccountJLabel = new JLabel("<html><div WIDTH=300><center>" + foundAccount.toString()+ "</center></div></html>");
+					foundAccountJLabel.setFont(new Font("Calibri", Font.PLAIN, 20));
+					foundAccountJLabel.setForeground(lGreenColor);
+					
+					displayPane.add(foundIntroJLabel);
+					displayPane.add(foundAccountJLabel);
+					displayPane.setVisible(true);
+					
 				}
+				
+				} 
+				catch (NumberFormatException notLong) {
+					errorMsg.setVisible(true);
+				}
+			
 			}
 			else {
 			displayPane.setVisible(false);
