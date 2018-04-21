@@ -1,39 +1,62 @@
 package banking;
 
-import java.util.Scanner; //best practice: only import the specific classes you actually will be using rather than java.util.*
-
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
+/**
+ * Provides the main method and instantiates the main GUI frame for the banking system.<br>
+ * This project was completed as a part of CST8132 for Dr. Anu Thomas.<br>
+ * It serves as an exercise in using the java.swing package to build a GUI and in importing text files.<br>
+ * The rest of the classes that comprise this project are:
+ * <ul>
+ * <li><code>Person
+ * <li>Bank
+ * <li>BankAccount
+ * <li>SavingsAccount
+ * <li>ChequingAccount
+ * <li>BankFrame
+ * <li>AddFrame
+ * <li>DisplayFrame
+ * <li>PrintFrame</code>
+ * </ul>
+ * @author Jamie Harnum
+ * @version 3.0
+ * 
+ */
 public class Assign7 {
 
-	public static Scanner in = new Scanner(System.in);
-	static Bank bank = new Bank("JH");
-	static BankFrame menu;
+	/**
+	 * Instantiates the main Bank for the program, which is given the name JH
+	 */
+	protected static Bank bank = new Bank("JH");
+	
+	/**
+	 * menu is the main BankFrame for the GUI
+	 */
+	protected static BankFrame menu;
 
+	/**
+	 * Instantiates and provides settings for the menu
+	 * @see BankFrame
+	 */
 	public static void displayMenu() {
 		
-		/* System.out.println("Enter your choice:");
-		System.out.println("a: Add new account");
-		System.out.println("d: Display account details");
-		System.out.println("p: Print all accounts");
-		System.out.println("u: Update account balance");
-		System.out.println("m: Month-end update");
-		System.out.println("q: Quit");
-		*/
 		try {
 			UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
 			menu = new BankFrame();
-			menu.setSize(400, 600);
+			menu.setSize(400, 700);
 			menu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			menu.setVisible(true);
 		} catch (Exception e) {
-			//TODO error popup
-			System.out.println("Something went wrong");
+			JOptionPane.showMessageDialog(menu, "Something went wrong", "Menu Error", JOptionPane.ERROR_MESSAGE);
 		}
 
 	}
 	
+	/*
+	 * Main method that implements <code>displayMenu</code> and begins the program.
+	 */
 	public static void main(String[] args) {
 
 		
@@ -44,44 +67,7 @@ public class Assign7 {
 		catch (Exception e) {
 			//TODO exception handling
 		}
-			
-	/*		
-	 * 		char option = 'x';
-	 * 
-	 * 		option = in.next().toLowerCase().charAt(0); //method chaining - convert to lowercase, consider only first character
-			
-			switch(option) {
-			
-			case 'a':
-				bank.addAccount();
-				break;
-				
-			case 'd':
-				bank.displayAccount();
-				break;
-				
-			case 'p':
-				bank.printAccountDetails();
-				
-			case 'u':
-				bank.updateAccount();
-				break;
-				
-			case 'm':
-				bank.monthlyUpdate();
-				break;
-				
-			case 'q': 
-				break;
-				
-			default:
-				System.out.println("I'm sorry, I didn't understand your choice. Please try again");
-			}
-			
-		} while (option !='q');
 		
-		in.close();
-		System.out.println("Have a nice day!");*/
 
 	}
 

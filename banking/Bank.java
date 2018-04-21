@@ -2,103 +2,108 @@ package banking;
 
 import java.util.ArrayList;
 
+/**
+ * An instance of this class is used to store the ArrayList of BankAccounts used
+ * by the program.
+ * 
+ * @author Jamie Harnum
+ * @version 3.0
+ */
 public class Bank {
-	
-	private static String bankName;
+
+	/**
+	 * The name of the instance of the Bank class
+	 */
+	private String bankName;
+
+	/**
+	 * The ArrayList of BankAccounts to be used by the program
+	 */
 	protected static ArrayList<BankAccount> accounts;
+
+	/**
+	 * The current number of existing accounts
+	 */
 	protected int numAccounts;
-	
+
+	/**
+	 * Constructor for the Bank object that assigns the name variable and
+	 * instantiates the ArrayList of BankAccounts
+	 * 
+	 * @param bankName
+	 *            The string representing the name of the bank
+	 */
 	public Bank(String bankName) {
-		Bank.bankName = bankName;
+		this.bankName = bankName;
 		accounts = new ArrayList<BankAccount>();
 	}
-	
+
+	/**
+	 * Legacy method from previous version that checks whether the account was
+	 * created successfully. Likely to be deleted or altered.
+	 * 
+	 * @param newAccount
+	 * @return The boolean representation of whether account creation was successful
+	 *         (true) or not (false)
+	 */
 	public boolean addAccount(BankAccount newAccount) {
-		//TODO fix this 
+		// TODO fix this
 		try {
-		accounts.add(newAccount);
-		numAccounts++;
-		return true;
-		} 
-		catch (Exception e) {
-			//TODO exception handling
+			accounts.add(newAccount);
+			numAccounts++;
+			return true;
+		} catch (Exception e) {
+			// TODO exception handling
 			return false;
 		}
-		
-	}//end addAccount()
-	
-	public void displayAccount() {
-		
-		System.out.println(findAccount());
-		//will print either null or the account object method toString() - java will look for this automatically
-		//TODO - exception handling if(findAccount()==null)
-		
-	}//end displayAccount()
-	
-	public void printAccountDetails() {
-		
-		//TODO pretty header kind of deal
-		
-		for (BankAccount acc : accounts) {
-			System.out.println(acc);
-			//print the object - calls toString()
-		}
-	} //end printAccountDetails
-	
-	public void updateAccount() {
-		
-		//find an account to update
-		BankAccount acc = findAccount();
-		
-		if (acc==null) {
-			System.out.println("Account number requested not found");
-			return;
-		}
-		
-		//prompt for amount
-		System.out.println("Enter an amount:");
-		acc.updateBalance(Assign7.in.nextDouble());
-		
-	}//end update
 
+	}// end addAccount()
+
+	/**
+	 * Loops through the BankAccount ArrayList and calls the monthlyAccountUpdate
+	 * method on all of them.
+	 */
 	public void monthlyUpdate() {
-		
+
 		for (BankAccount acc : accounts) {
 			acc.monthlyAccountUpdate();
 		}
-	} //end monthlyUpdate
-	
-	public BankAccount findAccount() {
-		
-		//prompt the user for an account number to find
-		System.out.println("Enter an account number:");
-		
-		while(!Assign7.in.hasNextLong()) {
-			System.out.println("Invalid account number. Please try again.");
-			Assign7.in.next();
-		}
-		
-		return searchAccounts(Assign7.in.nextLong());
-	}
-	
+	} // end monthlyUpdate
+
+	/**
+	 * Loops through the BankAccount ArrayList to see if any accounts have an
+	 * account number matching the account number being looked for
+	 * 
+	 * @param accNumToFind
+	 *            The number of the account the user wishes to find
+	 * @return The BankAccount if one is found, otherwise null.
+	 */
 	public static BankAccount searchAccounts(long accNumToFind) {
-		
-		for (BankAccount acc: accounts) {
+
+		for (BankAccount acc : accounts) {
 			if (acc.getAccNumber() == accNumToFind) {
 				return acc;
 			}
 		}
 		return null;
 	}
-	
+
+	/**
+	 * Gets the current number of accounts
+	 * 
+	 * @return The int representing the current number of accounts
+	 */
 	public int getNumAccounts() {
 		return numAccounts;
 	}
 
-	public static String getName() {
+	/**
+	 * Gets the name of the Bank object
+	 * 
+	 * @return The String representing the Bank's name
+	 */
+	public String getName() {
 		return bankName;
 	}
 
-
-	
-} //end class
+} // end class
